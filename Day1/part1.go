@@ -11,14 +11,20 @@ import (
 
 func main() {
 	reader := bufio.NewReaderSize(os.Stdin, 1024*1024)
+	frequency := int64(0)
 
-	//nm := strings.Split(readLine(reader), " ")
+	for {
+		nRead := readLine(reader)
+		if nRead == "" {
+			break
+		}
 
-	nTemp, err := strconv.ParseInt(readLine(reader), 10, 64)
-	checkError(err)
-	n := int32(nTemp)
+		n, err := strconv.ParseInt(nRead, 10, 64)
+		checkError(err)
+		frequency += n
+	}
 
-	fmt.Println(n)
+	fmt.Println(frequency)
 }
 
 func readLine(reader *bufio.Reader) string {
