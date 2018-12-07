@@ -60,12 +60,11 @@ func main() {
 		}
 	}
 
-	mostTotalAsleep := 0
-	mostAsleepMin := -1
 	mostAsleepID := -1
+	mostSingleMin := -1
+	mostMinNum := -1
 	for id, arr := range dutySchedule {
 		timesAsleep := make([]int, 60)
-		totalAsleep := 0
 
 		for _, date := range arr {
 			if awake[date] == nil {
@@ -80,30 +79,19 @@ func main() {
 				if current == -1 {
 					awake[date][i] = 0
 					timesAsleep[i]++
-					totalAsleep++
+					if timesAsleep[i] > mostSingleMin {
+						mostSingleMin = timesAsleep[i]
+						mostAsleepID = id
+						mostMinNum = i
+					}
 				} else {
 					awake[date][i] = 1
 				}
 			}
 		}
-
-		if totalAsleep > mostTotalAsleep {
-			mostTotalAsleep = totalAsleep
-			mostAsleepID = id
-
-			mostAsleepMin = -1
-			most := -1
-			for min, times := range timesAsleep {
-				if times > most {
-					most = times
-					mostAsleepMin = min
-				}
-			}
-		}
-
 	}
 
-	fmt.Println(mostAsleepMin * mostAsleepID)
+	fmt.Println(mostMinNum * mostAsleepID)
 }
 
 func readLine(reader *bufio.Reader) string {
